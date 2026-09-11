@@ -303,6 +303,11 @@ Two details that matter more than the weights:
 - **A different category is penalised the same way (0.70x).** As a 10% weight
   alone, a wallet at the library outranked the only set of keys for "I lost my
   keys near the library".
+- **So is a contradicted brand (0.80x).** At 5% alone, "green Samsung phone, at
+  the bus stop" scored the green *Google* phone at the bus stop as HIGH.
+- **The clarification cap counts only unhelpful replies.** A reply that adds a
+  new fact (category, brand, colour, location or time) resets it, so a user who
+  finally says "a green Samsung" is asked what's still missing, not escalated.
 - **Thin reports are asked about, not escalated.** "I lost my keys" scores LOW
   because the user said little, not because nothing fits. When the report has no
   location or no colour/brand and a same-category item is held, the agent asks for

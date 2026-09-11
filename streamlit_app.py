@@ -999,7 +999,6 @@ def init_state() -> None:
     st.session_state.setdefault("agent_state", None)
     st.session_state.setdefault("messages", [])
     st.session_state.setdefault("pending", None)
-    st.session_state.setdefault("celebrate", False)
     st.session_state.setdefault("theme", "System")
 
 
@@ -1007,7 +1006,6 @@ def reset_conversation() -> None:
     st.session_state.agent_state = None
     st.session_state.messages = []
     st.session_state.pending = None
-    st.session_state.celebrate = False
 
 
 def render_history() -> None:
@@ -1040,8 +1038,6 @@ def process_pending(message: str) -> None:
 
     working.empty()
     st.session_state.agent_state = result
-    # Fires once, on the rerun that first shows the success card.
-    st.session_state.celebrate = bool(result.get("pickup_request"))
     st.session_state.messages.append({"role": "user", "content": message})
     st.session_state.messages.append(
         {
@@ -1093,10 +1089,6 @@ def main() -> None:
 
     if not st.session_state.messages:
         render_empty_state()
-
-    if st.session_state.celebrate:
-        st.session_state.celebrate = False
-        st.balloons()
 
     if prompt := st.chat_input("Describe the item you lost…"):
         st.session_state.pending = prompt

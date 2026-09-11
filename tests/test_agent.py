@@ -109,6 +109,25 @@ def test_terse_report_escalates_after_the_clarification_cap():
     assert "possible matches" in state["agent_response"]
 
 
+def test_new_details_after_the_cap_earn_another_question():
+    """Two unhelpful replies, then real details: ask about what's missing, don't escalate."""
+    state = run_turn(None, "I lost my phone")
+    state = run_turn(state, "not sure")
+    assert state["clarification_rounds"] == 2
+
+    state = run_turn(state, "I lost a green samsung phone")
+    assert state["next_action"] == ACTION_ASK_CLARIFICATION
+    assert state["escalation"] is None
+
+
+def test_contradicted_brand_is_not_offered_as_a_likely_match():
+    """No green Samsung is held; the green Google at the right desk must not be HIGH."""
+    state = run_turn(None, "I lost a green samsung phone")
+    state = run_turn(state, "at the bus stop")
+    assert state["next_action"] != ACTION_REQUEST_VERIFICATION
+    assert state["pickup_request"] is None
+
+
 def test_vague_input_asks_for_more_information():
     state = run_turn(None, "I lost something.")
     assert state["next_action"] == ACTION_ASK_USER

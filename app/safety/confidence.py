@@ -227,6 +227,11 @@ def score_candidate(
     if category_score == 0.0:
         score *= 0.70
 
+    # Same for a stated-and-contradicted brand: at 5% alone, "green Samsung phone,
+    # at the bus stop" scored a green Google phone at the bus stop as HIGH.
+    if brand_score == 0.0:
+        score *= 0.80
+
     score = float(max(0.0, min(1.0, score)))
 
     reasons: list[str] = []

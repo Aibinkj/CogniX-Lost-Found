@@ -105,6 +105,10 @@ def _summarize(candidate: dict[str, Any]) -> str:
     return f"{label} (handed in at {candidate.get('location')})"
 
 
+def _fact_count(details: ItemDetails) -> int:
+    return details.known_field_count() + (1 if details.lost_time else 0)
+
+
 def _is_thin_report(details: ItemDetails) -> bool:
     """Too little said to judge a match: no location, or nothing about how it looks."""
     return details.location is None or not (details.color or details.brand)
@@ -257,6 +261,12 @@ def understand_request(state: AgentState) -> dict[str, Any]:
     details = previous.merge(extracted) if previous else extracted
 
     updates: dict[str, Any] = {"item_details": details.to_dict()}
+
+    # The clarification cap exists to stop asking a user who has nothing more to
+    # add. A reply that adds new facts is progress, so it earns fresh questions;
+    # with five facts to learn, this still cannot loop forever.
+    if previous and _fact_count(details) > _fact_count(previous):
+        updates["clarification_rounds"] = 0
     errors = list(state.get("errors", []))
 
     if state.get("lost_item_id") is None:
