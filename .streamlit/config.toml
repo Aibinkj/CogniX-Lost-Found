@@ -1,0 +1,12 @@
+# Pins the theme so the custom CSS in streamlit_app.py renders predictably
+# rather than inheriting whatever the viewer's Streamlit default happens to be.
+
+[theme]
+base = "light"
+primaryColor = "#2563EB"
+backgroundColor = "#F6F8FC"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#0F172A"
+
+[client]
+toolbarMode = "minimal"

@@ -1,0 +1,30 @@
+# --- core ----------------------------------------------------------------
+SQLAlchemy>=2.0.30
+psycopg2-binary>=2.9.9
+pgvector>=0.3.0
+python-dotenv>=1.0.1
+pydantic>=2.7
+pydantic-settings>=2.3
+numpy>=1.26
+
+# --- agent ---------------------------------------------------------------
+langgraph>=0.2.30
+langchain-core>=0.3.0
+
+# --- api / ui ------------------------------------------------------------
+fastapi>=0.111
+uvicorn[standard]>=0.30
+streamlit>=1.40
+requests>=2.32
+httpx>=0.27
+
+# --- tests ---------------------------------------------------------------
+pytest>=8.2
+
+# --- optional ------------------------------------------------------------
+# Real transformer embeddings. Pulls in torch (~200MB+). The app falls back to
+# a deterministic hashing embedder when this is absent.
+#   pip install sentence-transformers
+#
+# Tracing. The app runs normally without it and without credentials.
+#   pip install langfuse
